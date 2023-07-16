@@ -14,12 +14,17 @@ router.post(
   validateBody(userSchemas.registerSchema),
   ctrlAuth.register
 );
-
 router.post("/login", validateBody(userSchemas.loginSchema), ctrlAuth.login);
+router.post("/logout", authenticate, ctrlAuth.logout);
 
 router.get("/current", authenticate, ctrlAuth.getCurrent);
 
-router.post("/logout", authenticate, ctrlAuth.logout);
+router.post(
+  "/verify",
+  validateBody(userSchemas.emailSchema),
+  ctrlAuth.resendConfirmationEmail
+);
+router.get("/verify/:verificationToken", ctrlAuth.verifyEmail);
 
 router.patch(
   "/avatars",
